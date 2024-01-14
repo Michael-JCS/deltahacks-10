@@ -53,28 +53,30 @@ def create_resume(name, email, phone, skills, experience, education, filename='r
     doc.save(filename)
     print(f"Resume generated successfully: {filename}")
 
-if __name__ == "__main__":
-    # Example data
-    name = "John Doe"
-    email = "john.doe@example.com"
-    phone = "123-456-7890"
-    skills = ["Python", "Data Analysis", "Problem Solving"]
-    experience = [
-        {
-            "title": "Software Engineer",
-            "company": "Tech Company",
-            "start_date": "Jan 2020",
-            "end_date": "Present",
-            "description": "Worked on developing and maintaining software applications.",
-        },
-    ]
-    education = [
-        {
-            "degree": "Bachelor of Science",
-            "major": "Computer Science",
-            "school": "University XYZ",
-            "graduation_date": "May 2019",
-        },
-    ]
 
-    create_resume(name, email, phone, skills, experience, education)
+
+# if __name__ == "__main__":
+#     # Example data
+#     name = "John Doe"
+#     email = "john.doe@example.com"
+#     phone = "123-456-7890"
+#     skills = ["Python", "Data Analysis", "Problem Solving"]
+#     experience = [
+#         {
+#             "title": "Software Engineer",
+#             "company": "Tech Company",
+#             "start_date": "Jan 2020",
+#             "end_date": "Present",
+#             "description": "Worked on developing and maintaining software applications.",
+#         },
+#     ]
+#     education = [
+#         {
+#             "degree": "Bachelor of Science",
+#             "major": "Computer Science",
+#             "school": "University XYZ",
+#             "graduation_date": "May 2019",
+#         },
+#     ]
+
+#     create_resume(name, email, phone, skills, experience, education)
