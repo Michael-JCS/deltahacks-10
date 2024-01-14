@@ -1,6 +1,7 @@
 from docx import Document
 from docx.shared import Pt
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx2pdf import convert
 import cohere as c
 
 def rerank():
@@ -18,7 +19,8 @@ def rerank():
     return relevant_jobs
 
 
-def create_resume(name, email, phone, skills, experience, education, filename='resume.docx'):
+
+def create_resume(name, email, phone, skills, experience, education, word_filename='resume.docx', pdf_filename='resume.pdf'):
     # Create a new Word document
     doc = Document()
 
@@ -49,11 +51,13 @@ def create_resume(name, email, phone, skills, experience, education, filename='r
         doc.add_paragraph(f"{school['degree']} in {school['major']}, {school['school']} ({school['graduation_date']})")
         doc.add_paragraph()  # Add an empty line
 
-    # Save the document
-    doc.save(filename)
-    print(f"Resume generated successfully: {filename}")
+    # Save the Word document
+    doc.save(word_filename)
+    print(f"Resume generated successfully: {word_filename}")
 
-
+    # Convert Word to PDF
+    convert(word_filename, pdf_filename)
+    print(f"PDF generated successfully: {pdf_filename}")
 
 # if __name__ == "__main__":
 #     # Example data
