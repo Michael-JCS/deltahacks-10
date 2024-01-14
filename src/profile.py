@@ -1,23 +1,77 @@
-from tkinter import Tk, Label, Button, Frame, RAISED, SE
+from tkinter import Tk, Label, Button, Frame, RAISED, SE, font as tkFont
 
-class Profile:
-    def __init__(self, master):
-        self.master = master
+class Profile(Tk):
+    def __init__(self):
+        super().__init__()
+
+        self.data = {}
+
+        self.title("Resume Roti")
+        self.geometry('1920x1080')
+
+        # Define a larger font
+        large_font = tkFont.Font(family="Helvetica", size=20, weight="bold")
+
+        # Create a Label widget with the larger font
+        label = Label(self, text="Resume Filler", font=large_font)
+        label.grid(row=0, column=0)
+
+        # Initialize frames
+        self.frames = {}
+        for F in (PersonalInfo, Profiles, Projects, Education, Jobs):
+            frame = F(self)
+            self.frames[F] = frame
+            frame.grid(row=1, column=0, sticky="nsew")
+
+        self.show_frame(PersonalInfo)
+
+    def show_frame(self, context):
+        frame = self.frames[context]
+        frame.tkraise()
+
+       
         
-        master.title("A simple GUI")
+class PersonalInfo(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
+        label = Label(self, text="Personal Info")
+        label.pack(pady=10, padx=10)
 
-        self.framePhoto = Frame(master, bg='gray50',relief = RAISED, width=800, height=600, bd=4)
-        prevBtn = Button(self.framePhoto, text='Previous', command=master.quit)
+        next_button = Button(self, text="Next",
+                                command=lambda: parent.show_frame(Profiles))
+        next_button.pack()
+
+class Profiles(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
+        label = Label(self, text="Second Page")
+        label.pack(pady=10, padx=10)
+
+        next_button = Button(self, text="Next",
+                                command=lambda: parent.show_frame(Projects))
+        next_button.pack()
+
+class Projects(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
+        label = Label(self, text="Final Page")
+        label.pack(pady=10, padx=10)
+
+        # Add additional widgets or information here
 
 
-        nextBtn = Button(self.framePhoto, text='Next', command=master.quit,
-                        bg='green', fg='black')
+class Education(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
+        label = Label(self, text="Final Page")
+        label.pack(pady=10, padx=10)
 
-        self.label = Label(master, text="Profile.py")
-        self.label.pack()
+        # Add additional widgets or information here
 
-        self.close_button = Button(master, text="Close", command=master.quit)
-        self.close_button.pack()
-    
-    def run():
-        return
+class Jobs(Frame):
+    def __init__(self, parent):
+        Frame.__init__(self, parent)
+        label = Label(self, text="Final Page")
+        label.pack(pady=10, padx=10)
+
+        # Add additional widgets or information here
