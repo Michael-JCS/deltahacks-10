@@ -52,6 +52,28 @@ def set_job_info(job_key, field, value):
 def get_job_info(job_key, field):
     return r.hget(job_key, field)
 
+# add a new education, education_key must be unique between all users
+def add_education(username, education_key):
+    r.sadd(username+'_educations', education_key)
+    r.hset(education_key, mapping={'major':"",
+                             'degree':"",
+                             'school':"",
+                             'level':"",
+                             'location':"",
+                             'GPA':"",
+                             'start date':"",
+                             'end date':"",
+                             'description':education_key+'_description'})
+
+# set major, degree, school, level, location, GPA, start date, or end date;
+# example: set_education_info("jack133003_education1", "school", "McMaster University")
+def set_education_info(education_key, field, value):
+    r.hset(education_key, field, value)
+
+# get major, degree, school, level, location, GPA, start date, or end date;
+def get_education_info(education_key, field):
+    return r.hget(education_key, field)
+
 #example
 create_user("jack133003")
 
@@ -74,3 +96,16 @@ set_job_info("jack133003_job1", "end date", "September 2023")
 set_job_info("jack133003_job1", "location", "Toronto, ON")
 
 print(get_job_info("jack133003_job1", "position"))
+
+add_education("jack133003", "jack133003_education1")
+
+set_education_info("jack133003_education1", "major", "Electrical Engineering")
+set_education_info("jack133003_education1", "degree", "Bachelor of Engineering (Co-op)")
+set_education_info("jack133003_education1", "school", "McMaster University")
+set_education_info("jack133003_education1", "level", "3")
+set_education_info("jack133003_education1", "location", "Hamilton, ON")
+set_education_info("jack133003_education1", "GPA", "3.0")
+set_education_info("jack133003_education1", "start date", "September 2021")
+set_education_info("jack133003_education1", "end date", "June 2026")
+
+print(get_education_info("jack133003_education1", "degree"))
