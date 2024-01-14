@@ -1,26 +1,29 @@
 from docx import Document
 from docx.shared import Pt
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from typing import List
 from docx2pdf import convert
 import cohere as c
 
 def rerank():
     co = c.Client("")
-    relevant_jobs = []
+    relevant_descriptions = []
+    ranked_jobs = {}
     strings = '''Which string is the closest to this job title: Insert string of Job description here'''
-    job_title_query = [] #takes has the desc and find the ones that are best for the job title
+    job_title_query = {} #takes has the desc and find the ones that are best for the job title
+    #{key = job : value = [array of descriptions]}
+    for jobs, description in job_title_query:
+        response = co.rerank(query=strings, documents=description, top_n=3, model='rerank-english-v2.0')
+
+        for r in enumerate(response):
+            # relevant_jobs.append(r.relevance_score)
+            relevant_descriptions.append(r.documents['text'])
+        ranked_jobs[jobs] = relevant_descriptions
+        relevant_descriptions = []
+    return ranked_jobs #{Job : [3/4 Best Bullet Points Per Job]}
 
 
-    response = co.rerank(query=strings, documents=job_title_query, top_n=3, model='rerank-english-v2.0')
-
-    for idx, r in enumerate(response):
-        relevant_jobs.append(r.relevance_score)
-    
-    return relevant_jobs
-
-
-
-def create_resume(name, email, phone, skills, experience, education, word_filename='resume.docx', pdf_filename='resume.pdf'):
+def create_resume(name: str, email: str, phone: str, job_info, ranked_jobs, education, word_filename='resume.docx', pdf_filename='resume.pdf'):
     # Create a new Word document
     doc = Document()
 
@@ -35,15 +38,19 @@ def create_resume(name, email, phone, skills, experience, education, word_filena
 
     # Add skills section
     doc.add_heading('Skills', level=2)
-    for skill in skills:
-        doc.add_paragraph(skill)
+    for job in ranked_jobs:
+    # Check if the job title exists in job_info before accessing it
+        if job_info['title'] in job:
+            skills = job_info['skills']
+            for skill in skills:
+                doc.add_paragraph(skill)
 
     # Add experience section
     doc.add_heading('Experience', level=2)
-    for job in experience:
+    for job in job_info:
         doc.add_paragraph(f"{job['title']}, {job['company']} ({job['start_date']} - {job['end_date']})")
-        doc.add_paragraph(job['description'])
-        doc.add_paragraph()  # Add an empty line
+        doc.add_paragraph(ranked_jobs[job['title']])
+        doc.add_paragraph()  # Add an empty line                 
 
     # Add education section
     doc.add_heading('Education', level=2)
