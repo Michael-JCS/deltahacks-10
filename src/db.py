@@ -141,6 +141,16 @@ def add_project_description(project_key, description):
 def get_project_description(project_key):
     return r.smembers(project_key+'_description')
 
+def get_job_descriptions(username):
+    job_keys = r.smembers(username+'_jobs')
+    dict = {}
+
+    for job_key in job_keys:
+        dict[job_key] = r.smembers(r.hget(job_key, 'description'))
+
+    return dict
+
+
 #example
 # create_user("jack133003")
 
@@ -212,3 +222,5 @@ def get_project_description(project_key):
 
 # print(get_project_skills("jack133003_project1"))
 # print(get_education_description("jack133003_project1"))
+
+# print(get_job_descriptions("jack133003"))

@@ -2,12 +2,15 @@ from tkinter import Tk, Label, Button, Frame, RAISED, SE, font as tkFont, Entry,
 from db import *
 
 class Profile(Tk):
+
+    username = ''
+
     def __init__(self):
         super().__init__()
 
         self.data = {}
 
-        self.username = 'zayeedthegoat'
+        Profile.username = 'zayeedthegoat'
 
         self.title("Resume Roti")
         self.geometry('1920x1080')
@@ -75,11 +78,12 @@ class PersonalInfo(Frame):
         self.emailEntry = Entry(self, font=regular_font)
         self.emailEntry.grid(row=3, column=1, sticky="ew")
 
-        next_button = Button(self, text="Next", command=lambda: (parent.show_frame(Education), self.read_data))
-        next_button.grid(row=8, column=1, columnspan=1, sticky="ew")
+        next_button = Button(self, text="Next", command=lambda: (parent.show_frame(Education), self.read_data()))
+        next_button.grid(row=4, column=1, columnspan=1, sticky="ew")
 
         # Set the frame to expand
         self.grid(sticky="nsew")
+        
     
     def read_data(self):
         set_info(Profile.username, "name", self.nameEntry.get())
@@ -119,8 +123,8 @@ class Profiles(Frame):
         self.gitHubEntry = Entry(self, font=regular_font)
         self.gitHubEntry.grid(row=2, column=1, sticky="ew", pady=100)
 
-        next_button = Button(self, text="Next", command=lambda: (parent.show_frame(Jobs), self.read_data))
-        next_button.grid(row=8, column=1, columnspan=1, sticky="ew")
+        next_button = Button(self, text="Next", command=lambda: (parent.show_frame(Jobs), self.read_data()))
+        next_button.grid(row=4, column=1, columnspan=1, sticky="ew")
 
         # Set the frame to expand
         self.grid(sticky="nsew")
@@ -170,8 +174,8 @@ class Education(Frame):
         self.yearEntry = Entry(self, font=regular_font)
         self.yearEntry.grid(row=3, column=1, sticky="ew")
 
-        next_button = Button(self, text="Next", command=lambda: (parent.show_frame(Profiles), self.read_data))
-        next_button.grid(row=8, column=1, columnspan=1, sticky="ew")
+        next_button = Button(self, text="Next", command=lambda: (parent.show_frame(Profiles), self.read_data()))
+        next_button.grid(row=4, column=1, columnspan=1, sticky="ew")
 
         # Set the frame to expand
         self.grid(sticky="nsew")
@@ -252,7 +256,7 @@ class Jobs(Frame):
         self.descriptionEntry3.grid(row=6, column=1, sticky="ew")
         
 
-        next_button = Button(self, text="Next", command=lambda: (parent.show_frame(Projects), self.read_data))
+        next_button = Button(self, text="Next", command=lambda: (parent.show_frame(Projects), self.read_data()))
         next_button.grid(row=8, column=1, columnspan=1, sticky="ew")
 
         add_button = Button(self, text="Add", command=lambda: self.add_entry)
